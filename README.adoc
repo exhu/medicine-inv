@@ -1,0 +1,17 @@
+=== Tools to manage home medicine inventory ===
+Data input and storage is provided by user editable .csv files:
+
+- *product-name.csv* -- product names
+- *inventory.csv* -- all inventory ever, 'amount' field for tablets, multipacks.
+- *inventory-usage.csv* - open date, expiration alteration (for liquids).
+- *inventory-move.csv* - move to city/bag, trash, consumption.
+        - CityA
+        - CityB
+        - Baggage
+        - Trash
+        - Consumed
+- *places.csv* -- names of places
+- Inventory status:
+        - *filter* inventory based on *expiration, location, amount left*
+
+*places.csv* and *product-name.csv* are used only to validate the fields.
