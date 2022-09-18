@@ -1,6 +1,7 @@
 // TODO check id to be > than the previous
 use serde::Deserialize;
 use chrono::NaiveDate;
+use std::collections::HashSet;
 
 #[derive(Debug, Deserialize)]
 pub struct Inventory {
@@ -22,24 +23,76 @@ pub struct InventoryUsage {
     pub notes: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct InventoryMove {
-    // TODO
-
+    pub inventory_id: i32,
+    pub record_date: NaiveDate,
+    pub amount: i32,
+    pub source: String,
+    pub destination: String,
+    pub notes: String,
 }
 
 pub fn available_at(location_name: &str, items: &Vec<Inventory>, 
     moves: &Vec<InventoryMove>) {
 
+    // TODO
+    // sort records by date from oldest to newest
+    // track amount
 }
 
-pub fn is_expired(item: &Inventory, usage: &Vec<InventoryUsage>) {
+#[derive(Debug)]
+pub struct Amounts {
+    pub inventory_id: i32,
+    pub amount: i32,
+    pub location: String,
+}
+
+fn sorted_moves(moves: &Vec<InventoryMove>) -> Vec<InventoryMove> {
+    let mut sorted_moves: Vec<InventoryMove> = Vec::clone(&moves);
+    sorted_moves.sort_by( |a,b| a.record_date.cmp(&b.record_date));
+    sorted_moves
+}
+
+fn process_moves(items: &Vec<Inventory>, moves: &Vec<InventoryMove>) -> Vec<Amounts> {
+
+
+    let mut amounts = Vec::<Amounts>::new(); 
+    let ids = HashSet::<i32>::new();
+
+    amounts
+}
+
+
+
+pub fn is_expired(item: &Inventory, today: &NaiveDate, usage: &Vec<InventoryUsage>) {
 
 }
 
 #[cfg(test)]
 mod tests {
+    use chrono::Datelike;
+
     use super::*;
+
+    #[test]
+    fn test_sorted_moves() {
+        let moves = vec![InventoryMove { inventory_id: 1,
+            record_date: NaiveDate::from_ymd(2022, 3, 1),
+            amount: 3, source: "aa".into(), destination: "bb".into(),
+            notes: "".into() },
+            InventoryMove { inventory_id: 2,
+                record_date: NaiveDate::from_ymd(2022, 2, 20),
+                amount: 3, source: "bb".into(), destination: "aa".into(),
+                notes: "".into() } ];
+
+        let sorted_moves = sorted_moves(&moves);
+
+        assert_eq!(sorted_moves[0].record_date.month(), 2);
+        assert_eq!(sorted_moves[1].record_date.month(), 3);
+
+        println!("moves = {:?}, sorted = {:?}", &moves, &sorted_moves);
+    }
 
     #[test]
     fn read_inventory() {
