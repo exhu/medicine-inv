@@ -22,6 +22,20 @@ pub struct InventoryUsage {
     pub notes: String,
 }
 
+#[derive(Debug, Deserialize)]
+pub struct InventoryMove {
+    // TODO
+
+}
+
+pub fn available_at(location_name: &str, items: &Vec<Inventory>, 
+    moves: &Vec<InventoryMove>) {
+
+}
+
+pub fn is_expired(item: &Inventory, usage: &Vec<InventoryUsage>) {
+
+}
 
 #[cfg(test)]
 mod tests {
