@@ -1,4 +1,6 @@
-=== Tools to manage home medicine inventory ===
+= Tools to manage home medicine inventory =
+(C) 2022
+
 Data input and storage is provided by user editable .csv files:
 
 * *product-name.csv* -- product names
@@ -15,3 +17,12 @@ Data input and storage is provided by user editable .csv files:
 ** *filter* inventory based on *expiration, location, amount left*
 
 *places.csv* and *product-name.csv* are used only to validate the fields.
+
+== TODO ==
+* enumerate expired
+* enumerate soon to be expired (optionally by days)
+* enumerate available
+** by current location
+* validate product names, places
+* population tool/wizzard, e.g. reads last id, asks user for essential fields
+with proposed values, inserts current date, produces a new csv file to be added.
