@@ -1,7 +1,7 @@
 // TODO check id to be > than the previous
 use serde::Deserialize;
 use chrono::NaiveDate;
-use std::collections::HashSet;
+use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
 pub struct Inventory {
@@ -41,12 +41,6 @@ pub fn available_at(location_name: &str, items: &Vec<Inventory>,
     // track amount
 }
 
-#[derive(Debug)]
-pub struct Amounts {
-    pub inventory_id: i32,
-    pub amount: i32,
-    pub location: String,
-}
 
 fn sorted_moves(moves: &Vec<InventoryMove>) -> Vec<InventoryMove> {
     let mut sorted_moves: Vec<InventoryMove> = Vec::clone(&moves);
@@ -54,13 +48,50 @@ fn sorted_moves(moves: &Vec<InventoryMove>) -> Vec<InventoryMove> {
     sorted_moves
 }
 
-fn process_moves(items: &Vec<Inventory>, moves: &Vec<InventoryMove>) -> Vec<Amounts> {
+struct InventoryAtLocation {
+    pub id_to_amount: HashMap<i32, i32>,
+}
 
+impl InventoryAtLocation {
+    fn new() -> InventoryAtLocation {
+        InventoryAtLocation { id_to_amount: HashMap::new() }
+    }
 
-    let mut amounts = Vec::<Amounts>::new(); 
-    let ids = HashSet::<i32>::new();
+    fn add(&mut self, inventory_id: i32, amount: i32) {
+        if let Some(k) = self.id_to_amount.get_mut(&inventory_id) {
+            *k += amount;
+        } else {
+            self.id_to_amount.insert(inventory_id, amount);
+        }
+    }
+}
 
-    amounts
+#[derive(Debug)]
+pub struct Amounts {
+    pub inventory_id: i32,
+    pub amount: i32,
+    pub location: String,
+}
+
+// expects sorted moves
+fn final_amounts(items: &Vec<Inventory>, moves: &Vec<InventoryMove>) -> Vec<Amounts> {
+    // location maps to map of inventory_id to amount
+    let mut amounts = HashMap::<String, InventoryAtLocation>::new();
+
+    // init from origins
+    for item in items {
+        if let Some(k) = amounts.get_mut(&item.origin) {
+            k.add(item.id, item.amount);
+        } else {
+            let mut atloc = InventoryAtLocation::new();
+            atloc.add(item.id, item.amount);
+            amounts.insert(item.origin.clone(), atloc);
+        }
+    }
+
+    // TODO process moves
+
+    Vec::new()
 }
 
 
