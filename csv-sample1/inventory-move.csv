@@ -1,2 +1,2 @@
-inventory_id,record_date,amount,source,destination,notes
-
+id,inventory_id,record_date,amount,source_id,destination_id,notes
+1,1,2022-09-18,1,7,5,"initial purchase"

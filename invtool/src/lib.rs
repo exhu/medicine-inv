@@ -48,6 +48,7 @@ fn sorted_moves(moves: &Vec<InventoryMove>) -> Vec<InventoryMove> {
     sorted_moves
 }
 
+// one location can have several inventory items
 struct InventoryAtLocation {
     pub id_to_amount: HashMap<i32, i32>,
 }
@@ -90,6 +91,8 @@ fn final_amounts(items: &Vec<Inventory>, moves: &Vec<InventoryMove>) -> Vec<Amou
     }
 
     // TODO process moves
+    // TODO may be origin is unnecessary - calc all like balances -
+    // location = account, inventory = currency
 
     Vec::new()
 }
